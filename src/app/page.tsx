@@ -18,24 +18,16 @@ function GroupCard({ group, onClick }: { group: string; onClick: () => void }) {
     <div className="rounded-2xl overflow-hidden shadow-2xl cursor-pointer group"
       style={{ background: "#161b22", border: "1px solid rgba(255,255,255,0.08)" }}
       onClick={onClick}>
-
-      {/* Cabeçalho */}
       <div className="flex items-center justify-between px-5 py-4 transition-all group-hover:brightness-110"
         style={{ background: "linear-gradient(90deg,#004d1a,#007a1f)" }}>
         <div className="flex items-center gap-3">
           <span className="w-10 h-10 rounded-full font-black text-xl flex items-center justify-center shadow-lg"
-            style={{ background: "#ffdf00", color: "#004d1a" }}>
-            {group}
-          </span>
+            style={{ background: "#ffdf00", color: "#004d1a" }}>{group}</span>
           <span className="font-black text-white text-xl tracking-wide">Grupo {group}</span>
         </div>
-        <div className="flex items-center gap-2">
-          
-          <span className="text-white/50 text-lg md:hidden">›</span>
-        </div>
+        <span className="text-white/50 text-lg md:hidden">›</span>
       </div>
 
-      {/* Tabela DESKTOP (oculta no mobile) */}
       <div className="hidden md:block">
         <table className="w-full text-sm">
           <thead>
@@ -73,41 +65,39 @@ function GroupCard({ group, onClick }: { group: string; onClick: () => void }) {
             ))}
           </tbody>
         </table>
-
-        {/* Legenda + próximo jogo (desktop) */}
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
           <div className="flex items-center gap-2 px-5 py-2" style={{ background: "#0d1117" }}>
             <span className="w-2.5 h-2.5 rounded-full bg-green-500"></span>
             <span className="text-white/25 text-xs">Classificado para as oitavas de final</span>
           </div>
           {matches[0] && (
-  <div className="px-4 py-3 border-t border-white/10 flex items-center justify-between"
-    style={{ background: "#1a2535" }}>
-    <div className="flex items-center gap-2 text-xs">
-      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider"
-        style={{ background: "#ffdf0020", color: "#ffdf00" }}>
-        Próximo
-      </span>
-      <span className="text-white/80 font-medium">{matches[0].home} × {matches[0].away}</span>
-    </div>
-    <div className="flex items-center gap-2">
-      <span className="text-white/30 text-xs whitespace-nowrap hidden sm:block">
-        {matches[0].date.split("-").reverse().join("/")} · {matches[0].time}
-      </span>
-      <a href={`/match/${matches[0].id}`}
-        className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider transition hover:scale-105"
-        style={{ background: "#22c55e", color: "#fff" }}>
-        Ver →
-      </a>
-    </div>
-  </div>
-)}
+            <div className="px-4 py-3 flex items-center justify-between"
+              style={{ background: "#161b22", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+              <div className="flex items-center gap-2 text-xs">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider"
+                  style={{ background: "#ffdf0020", color: "#ffdf00" }}>Próximo</span>
+                <span className="text-white/80 font-medium">{matches[0].home} × {matches[0].away}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-white/30 text-xs whitespace-nowrap hidden sm:block">
+                  {matches[0].date.split("-").reverse().join("/")} · {matches[0].time}
+                </span>
+                <a href={`/match/${matches[0].id}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider transition hover:scale-105"
+                  style={{ background: "#22c55e", color: "#fff" }}>
+                  Ver →
+                </a>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
 
-      {/* Preview MOBILE (visível só no mobile) */}
       <div className="md:hidden px-4 py-3 flex items-center justify-between"
         style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="flex gap-2">
-          {standings.slice(0, 4).map((team, i) => (
+          {standings.slice(0, 4).map((team) => (
             <div key={team.code} className="flex items-center gap-1.5">
               <img src={team.flag} alt={team.team} className="w-5 h-3.5 object-cover rounded-sm" />
               <span className="text-white/60 text-xs">{team.code}</span>
@@ -126,24 +116,18 @@ function GroupModal({ group, onClose }: { group: string; onClose: () => void }) 
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col" style={{ background: "#0d1117" }}>
-      {/* Header do modal */}
       <div className="flex items-center gap-4 px-4 py-4 flex-shrink-0"
         style={{ background: "linear-gradient(90deg,#004d1a,#007a1f)", borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
         <button onClick={onClose} className="w-9 h-9 rounded-full flex items-center justify-center text-white text-lg font-bold transition hover:bg-white/10"
-          style={{ background: "rgba(0,0,0,0.3)" }}>
-          ‹
-        </button>
+          style={{ background: "rgba(0,0,0,0.3)" }}>‹</button>
         <div className="flex items-center gap-3">
           <span className="w-9 h-9 rounded-full font-black text-lg flex items-center justify-center"
-            style={{ background: "#ffdf00", color: "#004d1a" }}>
-            {group}
-          </span>
+            style={{ background: "#ffdf00", color: "#004d1a" }}>{group}</span>
           <span className="font-black text-white text-xl">Grupo {group}</span>
         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto">
-        {/* Tabela completa */}
         <div className="px-4 pt-5 pb-2">
           <p className="text-white/30 text-xs uppercase tracking-widest mb-3">Classificação</p>
         </div>
@@ -184,7 +168,6 @@ function GroupModal({ group, onClose }: { group: string; onClose: () => void }) 
           <span className="text-white/30 text-xs">Classificado para as oitavas de final</span>
         </div>
 
-        {/* Jogos do grupo */}
         <div className="px-4 pb-2">
           <p className="text-white/30 text-xs uppercase tracking-widest mb-3">Jogos</p>
         </div>
@@ -193,9 +176,7 @@ function GroupModal({ group, onClose }: { group: string; onClose: () => void }) 
             <div key={match.id} className="rounded-xl px-4 py-4"
               style={{ background: "#161b22", border: "1px solid rgba(255,255,255,0.07)" }}>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-white/30 text-xs">
-                  {match.date.split("-").reverse().join("/")} · {match.time} BRT
-                </span>
+                <span className="text-white/30 text-xs">{match.date.split("-").reverse().join("/")} · {match.time} BRT</span>
                 <span className="text-white/30 text-xs">{match.city}</span>
               </div>
               <div className="flex items-center justify-between gap-3">
@@ -206,16 +187,20 @@ function GroupModal({ group, onClose }: { group: string; onClose: () => void }) 
                 </div>
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg flex-shrink-0"
                   style={{ background: "#0d1117" }}>
-                  {match.status === "finished" || match.status === "live"
-                    ? <span className="font-black text-white text-base">{match.homeScore} – {match.awayScore}</span>
-                    : <span className="text-white/30 text-xs font-medium">vs</span>
-                  }
+                  <span className="text-white/30 text-xs font-medium">vs</span>
                 </div>
                 <div className="flex items-center gap-2 flex-1 justify-end">
                   <span className="font-bold text-white text-sm text-right">{match.away}</span>
                   <img src={getTeamsByGroup(group).find(t => t.name === match.away)?.flag}
                     alt={match.away} className="w-8 h-5 object-cover rounded shadow" />
                 </div>
+              </div>
+              <div className="mt-3 flex justify-end">
+                <a href={`/match/${match.id}`}
+                  className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider"
+                  style={{ background: "#22c55e", color: "#fff" }}>
+                  Ver jogo →
+                </a>
               </div>
             </div>
           ))}
@@ -231,13 +216,10 @@ export default function Home() {
 
   return (
     <main className="min-h-screen text-white" style={{ background: "#0d1117" }}>
-
-      {/* Modal mobile */}
       {selectedGroup && (
         <GroupModal group={selectedGroup} onClose={() => setSelectedGroup(null)} />
       )}
 
-      {/* Header */}
       <header className="relative overflow-hidden text-center py-10 px-4"
         style={{ background: "linear-gradient(160deg,#003d0f 0%,#006400 45%,#004d1a 100%)" }}>
         <div className="absolute inset-0 opacity-[0.06]"
@@ -261,7 +243,6 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Tabs */}
       <div className="sticky top-0 z-20"
         style={{ background: "#161b22", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
         <div className="max-w-screen-xl mx-auto px-4 flex">
@@ -278,22 +259,15 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Conteúdo */}
       <div className="max-w-screen-xl mx-auto px-4 py-6">
         {activeTab === "grupos" && (
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
             {groups.map(group => (
-              <GroupCard
-                key={group}
-                group={group}
-                onClick={() => {
-                  if (window.innerWidth < 768) setSelectedGroup(group);
-                }}
-              />
+              <GroupCard key={group} group={group}
+                onClick={() => { if (window.innerWidth < 768) setSelectedGroup(group); }} />
             ))}
           </div>
         )}
-
         {activeTab === "eliminatorias" && (
           <div className="flex flex-col items-center justify-center py-32 gap-4">
             <span className="text-7xl">🏆</span>

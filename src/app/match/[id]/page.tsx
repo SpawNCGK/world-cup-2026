@@ -40,11 +40,20 @@ export default function MatchPage() {
   const [activeTab, setActiveTab] = useState<"stats" | "events" | "players">("stats");
 
   // Mock data para desenvolvimento (antes da Copa começar)
-  const mockMatch = {
-    home: { name: "Brasil", flag: "https://flagcdn.com/br.svg", score: 2 },
-    away: { name: "Marrocos", flag: "https://flagcdn.com/ma.svg", score: 1 },
-    minute: 67,
-    status: "live" as const,
+ const mockMatch: {
+  home: { name: string; flag: string; score: number };
+  away: { name: string; flag: string; score: number };
+  minute: number;
+  status: "upcoming" | "live" | "halftime" | "finished";
+  date: string;
+  time: string;
+  venue: string;
+  city: string;
+} = {
+  home: { name: "Brasil", flag: "https://flagcdn.com/br.svg", score: 2 },
+  away: { name: "Marrocos", flag: "https://flagcdn.com/ma.svg", score: 1 },
+  minute: 67,
+  status: "live",
     date: "13/06/2026",
     time: "19:00 BRT",
     venue: "MetLife Stadium",

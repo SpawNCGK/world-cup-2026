@@ -44,7 +44,7 @@ export default function MatchPage() {
     home: { name: "Brasil", flag: "https://flagcdn.com/br.svg", score: 2 },
     away: { name: "Marrocos", flag: "https://flagcdn.com/ma.svg", score: 1 },
     minute: 67,
-    status: "upcoming" as const,
+    status: "live" as const,
     date: "13/06/2026",
     time: "19:00 BRT",
     venue: "MetLife Stadium",
@@ -112,7 +112,7 @@ export default function MatchPage() {
 
             {/* Placar central */}
             <div className="flex flex-col items-center gap-2 px-4">
-              {mockMatch.status === "upcoming" && (
+              {mockMatch.status === "live" && (
                 <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider"
                   style={{ background: "#ef4444" }}>
                   <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>

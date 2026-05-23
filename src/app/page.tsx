@@ -271,7 +271,7 @@ export default function Home() {
         )}
         {activeTab === "eliminatorias" && (
           <div>
-            <p style={{ color: "red", fontSize: 32 }}>TESTE</p>
+            
             <Bracket />
           </div>
         )}

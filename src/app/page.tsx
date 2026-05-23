@@ -270,10 +270,12 @@ export default function Home() {
           </div>
         )}
         {activeTab === "eliminatorias" && (
-  <div>
-    <Bracket />
-  </div>
-)}
+          <div>
+            <p style={{ color: "red", fontSize: 32 }}>TESTE</p>
+            <Bracket />
+          </div>
+        )}
+      </div>
 
       <footer className="text-center py-8 text-white/15 text-xs tracking-wider uppercase"
         style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>

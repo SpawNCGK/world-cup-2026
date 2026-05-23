@@ -30,7 +30,7 @@ function GroupCard({ group, onClick }: { group: string; onClick: () => void }) {
           <span className="font-black text-white text-xl tracking-wide">Grupo {group}</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-white/30 text-xs uppercase tracking-widest hidden md:block">6 partidas</span>
+          
           <span className="text-white/50 text-lg md:hidden">›</span>
         </div>
       </div>

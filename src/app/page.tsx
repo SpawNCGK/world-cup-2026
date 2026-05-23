@@ -81,22 +81,27 @@ function GroupCard({ group, onClick }: { group: string; onClick: () => void }) {
             <span className="text-white/25 text-xs">Classificado para as oitavas de final</span>
           </div>
           {matches[0] && (
-            <div className="flex items-center justify-between px-5 py-3"
-              style={{ background: "#161b22", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-              <div className="flex items-center gap-3">
-                <span className="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider"
-                  style={{ background: "rgba(255,223,0,0.12)", color: "#ffdf00" }}>Próximo</span>
-                <span className="text-white/80 text-sm font-semibold">
-                  {matches[0].home} <span className="text-white/30 mx-1">×</span> {matches[0].away}
-                </span>
-              </div>
-              <span className="text-white/30 text-xs whitespace-nowrap">
-                {matches[0].date.split("-").reverse().join("/")} · {matches[0].time} BRT
-              </span>
-            </div>
-          )}
-        </div>
-      </div>
+  <div className="px-4 py-3 border-t border-white/10 flex items-center justify-between"
+    style={{ background: "#1a2535" }}>
+    <div className="flex items-center gap-2 text-xs">
+      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider"
+        style={{ background: "#ffdf0020", color: "#ffdf00" }}>
+        Próximo
+      </span>
+      <span className="text-white/80 font-medium">{matches[0].home} × {matches[0].away}</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <span className="text-white/30 text-xs whitespace-nowrap hidden sm:block">
+        {matches[0].date.split("-").reverse().join("/")} · {matches[0].time}
+      </span>
+      <a href={`/match/${matches[0].id}`}
+        className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider transition hover:scale-105"
+        style={{ background: "#22c55e", color: "#fff" }}>
+        Ver →
+      </a>
+    </div>
+  </div>
+)}
 
       {/* Preview MOBILE (visível só no mobile) */}
       <div className="md:hidden px-4 py-3 flex items-center justify-between"

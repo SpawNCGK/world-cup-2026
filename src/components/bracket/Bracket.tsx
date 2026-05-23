@@ -9,137 +9,229 @@ interface BracketMatch {
   homeScore?: number;
   awayScore?: number;
   date?: string;
-  time?: string;
+  venue?: string;
   status: "upcoming" | "live" | "finished" | "tbd";
 }
 
-const MatchCard = ({ match }: { match: BracketMatch }) => (
-  <div className="rounded-xl overflow-hidden w-48 shadow-xl"
-    style={{ background: "#161b22", border: `1px solid ${match.status === "live" ? "#ef4444" : "rgba(255,255,255,0.08)"}` }}>
-    {match.status === "live" && (
-      <div className="flex items-center gap-1.5 px-3 py-1 text-[10px] font-black uppercase" style={{ background: "#ef4444" }}>
-        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
-        Ao Vivo
-      </div>
-    )}
-    {match.date && (
-      <div className="px-3 py-1.5 text-[10px] text-white/30 border-b border-white/5">
-        {match.date} · {match.time}
-      </div>
-    )}
-    {/* Time da casa */}
-    <div className={`flex items-center justify-between px-3 py-2.5 border-b border-white/5 ${match.status === "finished" && match.homeScore! > match.awayScore! ? "bg-white/5" : ""}`}>
-      <div className="flex items-center gap-2">
-        {match.homeFla
-          ? <img src={match.homeFla} alt={match.home} className="w-6 h-4 object-cover rounded-sm" />
-          : <span className="w-6 h-4 rounded-sm bg-white/10"></span>
-        }
-        <span className={`text-xs font-semibold ${match.home ? "text-white" : "text-white/20"}`}>
-          {match.home || "A definir"}
-        </span>
-      </div>
-      {match.status !== "tbd" && match.status !== "upcoming" && (
-        <span className={`text-sm font-black ${match.status === "finished" && match.homeScore! > match.awayScore! ? "text-[#ffdf00]" : "text-white"}`}>
-          {match.homeScore ?? "-"}
-        </span>
+const MatchCard = ({ match, size = "md" }: { match: BracketMatch; size?: "sm" | "md" | "lg" }) => {
+  const width = size === "lg" ? "w-52" : size === "sm" ? "w-44" : "w-48";
+  return (
+    <div className={`${width} rounded-xl overflow-hidden shadow-lg flex-shrink-0`}
+      style={{ background: "#1e2a3a", border: `1px solid ${match.status === "live" ? "#ef4444" : "rgba(255,255,255,0.1)"}` }}>
+      {match.status === "live" && (
+        <div className="flex items-center gap-1.5 px-3 py-1 text-[10px] font-black uppercase tracking-wider" style={{ background: "#ef4444" }}>
+          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>AO VIVO
+        </div>
       )}
-    </div>
-    {/* Time visitante */}
-    <div className={`flex items-center justify-between px-3 py-2.5 ${match.status === "finished" && match.awayScore! > match.homeScore! ? "bg-white/5" : ""}`}>
-      <div className="flex items-center gap-2">
-        {match.awayFla
-          ? <img src={match.awayFla} alt={match.away} className="w-6 h-4 object-cover rounded-sm" />
-          : <span className="w-6 h-4 rounded-sm bg-white/10"></span>
-        }
-        <span className={`text-xs font-semibold ${match.away ? "text-white" : "text-white/20"}`}>
-          {match.away || "A definir"}
-        </span>
-      </div>
-      {match.status !== "tbd" && match.status !== "upcoming" && (
-        <span className={`text-sm font-black ${match.status === "finished" && match.awayScore! > match.homeScore! ? "text-[#ffdf00]" : "text-white"}`}>
-          {match.awayScore ?? "-"}
-        </span>
+      {match.date && (
+        <div className="px-3 py-1 text-[10px] border-b border-white/5" style={{ color: "rgba(255,255,255,0.25)" }}>
+          {match.date}{match.venue ? ` · ${match.venue}` : ""}
+        </div>
       )}
+      <div className="flex items-center justify-between px-3 py-2 border-b border-white/5 hover:bg-white/5 transition">
+        <div className="flex items-center gap-2">
+          {match.homeFla
+            ? <img src={match.homeFla} alt={match.home} className="w-5 h-3.5 object-cover rounded-sm flex-shrink-0" />
+            : <span className="w-5 h-3.5 rounded-sm flex-shrink-0" style={{ background: "rgba(255,255,255,0.08)" }}></span>}
+          <span className={`text-xs ${match.home ? "text-white font-semibold" : "text-white/25"}`}>
+            {match.home || "A definir"}
+          </span>
+        </div>
+        {(match.status === "finished" || match.status === "live") && (
+          <span className={`text-sm font-black ml-2 ${match.status === "finished" && match.homeScore! > match.awayScore! ? "text-[#ffdf00]" : "text-white/70"}`}>
+            {match.homeScore ?? 0}
+          </span>
+        )}
+      </div>
+      <div className="flex items-center justify-between px-3 py-2 hover:bg-white/5 transition">
+        <div className="flex items-center gap-2">
+          {match.awayFla
+            ? <img src={match.awayFla} alt={match.away} className="w-5 h-3.5 object-cover rounded-sm flex-shrink-0" />
+            : <span className="w-5 h-3.5 rounded-sm flex-shrink-0" style={{ background: "rgba(255,255,255,0.08)" }}></span>}
+          <span className={`text-xs ${match.away ? "text-white font-semibold" : "text-white/25"}`}>
+            {match.away || "A definir"}
+          </span>
+        </div>
+        {(match.status === "finished" || match.status === "live") && (
+          <span className={`text-sm font-black ml-2 ${match.status === "finished" && match.awayScore! > match.homeScore! ? "text-[#ffdf00]" : "text-white/70"}`}>
+            {match.awayScore ?? 0}
+          </span>
+        )}
+      </div>
     </div>
+  );
+};
+
+const tbd = (id: string, date?: string, venue?: string): BracketMatch => ({ id, status: "tbd", date, venue });
+
+const roundOf32Dates = [
+  "28 Jun", "28 Jun", "29 Jun", "29 Jun",
+  "30 Jun", "30 Jun", "01 Jul", "01 Jul",
+  "02 Jul", "02 Jul", "02 Jul", "02 Jul",
+  "03 Jul", "03 Jul", "03 Jul", "03 Jul",
+];
+
+const roundOf16Dates = [
+  "05 Jul", "05 Jul", "06 Jul", "06 Jul",
+  "07 Jul", "07 Jul", "08 Jul", "08 Jul",
+];
+
+const qfDates = ["11 Jul", "11 Jul", "12 Jul", "12 Jul"];
+const sfDates = ["15 Jul", "16 Jul"];
+
+const RoundLabel = ({ label }: { label: string }) => (
+  <div className="text-[10px] font-black uppercase tracking-widest text-center mb-4 whitespace-nowrap"
+    style={{ color: "rgba(255,255,255,0.3)" }}>
+    {label}
   </div>
 );
 
-const rounds = [
-  { id: "r32", label: "Oitavas de Final", matches: 16 },
-  { id: "r16", label: "Quartas de Final", matches: 8 },
-  { id: "sf", label: "Semifinais", matches: 4 },
-  { id: "f", label: "Final", matches: 2 },
-];
-
-const tbd: BracketMatch = { id: "tbd", status: "tbd" };
-
-const mockR32: BracketMatch[] = Array(16).fill(null).map((_, i) => ({
-  id: `r32-${i}`,
-  status: "upcoming" as const,
-  date: "Jul 2026",
-  home: undefined,
-  away: undefined,
-}));
+const Connector = ({ side = "right" }: { side?: "right" | "left" }) => (
+  <div className={`w-5 h-px flex-shrink-0`} style={{ background: "rgba(255,255,255,0.12)" }} />
+);
 
 export default function Bracket() {
+  const r32 = roundOf32Dates.map((d, i) => tbd(`r32-${i}`, d));
+  const r16 = roundOf16Dates.map((d, i) => tbd(`r16-${i}`, d));
+  const qf = qfDates.map((d, i) => tbd(`qf-${i}`, d));
+  const sf = sfDates.map((d, i) => tbd(`sf-${i}`, d));
+  const third = tbd("third", "18 Jul", "Miami");
+  const final = tbd("final", "19 Jul", "Nova Jersey");
+
   return (
-    <div className="w-full overflow-x-auto pb-8">
-      <div className="min-w-[900px] px-4">
-        {/* Labels das fases */}
-        <div className="grid grid-cols-4 mb-6">
-          {rounds.map(r => (
-            <div key={r.id} className="text-center">
-              <span className="text-xs font-black uppercase tracking-widest text-white/40">{r.label}</span>
+    <div className="w-full overflow-x-auto pb-10 pt-2">
+      <div className="inline-flex items-start gap-0 min-w-max px-4">
+
+        {/* 32avos ESQUERDO */}
+        <div className="flex flex-col">
+          <RoundLabel label="32avos de Final" />
+          <div className="flex flex-col gap-2">
+            {r32.slice(0, 8).map((m) => (
+              <div key={m.id} className="flex items-center">
+                <MatchCard match={m} size="sm" />
+                <Connector />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Oitavas ESQUERDO */}
+        <div className="flex flex-col">
+          <RoundLabel label="Oitavas de Final" />
+          <div className="flex flex-col" style={{ gap: "40px", paddingTop: "20px" }}>
+            {r16.slice(0, 4).map((m) => (
+              <div key={m.id} className="flex items-center">
+                <MatchCard match={m} size="sm" />
+                <Connector />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Quartas ESQUERDO */}
+        <div className="flex flex-col">
+          <RoundLabel label="Quartas de Final" />
+          <div className="flex flex-col" style={{ gap: "120px", paddingTop: "56px" }}>
+            {qf.slice(0, 2).map((m) => (
+              <div key={m.id} className="flex items-center">
+                <MatchCard match={m} />
+                <Connector />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Semifinais ESQUERDO */}
+        <div className="flex flex-col">
+          <RoundLabel label="Semifinais" />
+          <div className="flex flex-col" style={{ gap: "0px", paddingTop: "130px" }}>
+            <div className="flex items-center">
+              <MatchCard match={sf[0]} />
+              <Connector />
             </div>
-          ))}
-        </div>
-
-        {/* Bracket */}
-        <div className="grid grid-cols-4 gap-4 items-center">
-          {/* Oitavas */}
-          <div className="flex flex-col gap-3">
-            {mockR32.slice(0, 8).map(m => <MatchCard key={m.id} match={m} />)}
-          </div>
-
-          {/* Quartas */}
-          <div className="flex flex-col gap-12 justify-around h-full">
-            {Array(4).fill(null).map((_, i) => (
-              <MatchCard key={i} match={{ id: `qf-${i}`, status: "tbd" }} />
-            ))}
-          </div>
-
-          {/* Semifinais */}
-          <div className="flex flex-col gap-32 justify-around h-full">
-            {Array(2).fill(null).map((_, i) => (
-              <MatchCard key={i} match={{ id: `sf-${i}`, status: "tbd" }} />
-            ))}
-          </div>
-
-          {/* Final */}
-          <div className="flex flex-col items-center justify-center h-full">
-            <div className="text-4xl mb-3">🏆</div>
-            <MatchCard match={{ id: "final", status: "tbd" }} />
-            <p className="text-white/20 text-xs mt-3 uppercase tracking-wider">19 Jul · Nova Jersey</p>
           </div>
         </div>
 
-        {/* Lado direito do chaveamento */}
-        <div className="grid grid-cols-4 gap-4 items-center mt-3">
-          <div className="flex flex-col gap-3">
-            {mockR32.slice(8, 16).map(m => <MatchCard key={m.id} match={m} />)}
+        {/* FINAL + 3º Lugar */}
+        <div className="flex flex-col items-center">
+          <RoundLabel label="Final" />
+          <div style={{ paddingTop: "180px" }}>
+            <div className="flex flex-col items-center gap-3">
+              <div className="text-4xl">🏆</div>
+              <MatchCard match={final} size="lg" />
+              <p className="text-[10px] uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.2)" }}>
+                19 Jul · MetLife Stadium
+              </p>
+            </div>
           </div>
-          <div className="flex flex-col gap-12 justify-around h-full">
-            {Array(4).fill(null).map((_, i) => (
-              <MatchCard key={i} match={{ id: `qf2-${i}`, status: "tbd" }} />
-            ))}
+          <div style={{ paddingTop: "40px" }}>
+            <div className="flex flex-col items-center gap-1">
+              <p className="text-[10px] uppercase tracking-widest mb-1" style={{ color: "rgba(255,223,0,0.5)" }}>
+                🥉 3º Lugar
+              </p>
+              <MatchCard match={third} />
+              <p className="text-[10px] uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.2)" }}>
+                18 Jul · Hard Rock Stadium
+              </p>
+            </div>
           </div>
-          <div className="col-span-2"></div>
         </div>
 
-        <p className="text-center text-white/15 text-xs mt-8 uppercase tracking-wider">
-          Horários no fuso de Brasília (BRT)
-        </p>
+        {/* Semifinais DIREITO */}
+        <div className="flex flex-col">
+          <RoundLabel label="Semifinais" />
+          <div style={{ paddingTop: "130px" }}>
+            <div className="flex items-center">
+              <Connector side="left" />
+              <MatchCard match={sf[1]} />
+            </div>
+          </div>
+        </div>
+
+        {/* Quartas DIREITO */}
+        <div className="flex flex-col">
+          <RoundLabel label="Quartas de Final" />
+          <div className="flex flex-col" style={{ gap: "120px", paddingTop: "56px" }}>
+            {qf.slice(2, 4).map((m) => (
+              <div key={m.id} className="flex items-center">
+                <Connector side="left" />
+                <MatchCard match={m} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Oitavas DIREITO */}
+        <div className="flex flex-col">
+          <RoundLabel label="Oitavas de Final" />
+          <div className="flex flex-col" style={{ gap: "40px", paddingTop: "20px" }}>
+            {r16.slice(4, 8).map((m) => (
+              <div key={m.id} className="flex items-center">
+                <Connector side="left" />
+                <MatchCard match={m} size="sm" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 32avos DIREITO */}
+        <div className="flex flex-col">
+          <RoundLabel label="32avos de Final" />
+          <div className="flex flex-col gap-2">
+            {r32.slice(8, 16).map((m) => (
+              <div key={m.id} className="flex items-center">
+                <Connector side="left" />
+                <MatchCard match={m} size="sm" />
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
+
+      <p className="text-center text-white/15 text-xs mt-6 uppercase tracking-wider">
+        Horários no fuso de Brasília (BRT) · Copa do Mundo FIFA 2026
+      </p>
     </div>
   );
 }

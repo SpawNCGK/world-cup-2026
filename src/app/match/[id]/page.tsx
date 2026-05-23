@@ -112,11 +112,11 @@ export default function MatchPage() {
 
             {/* Placar central */}
             <div className="flex flex-col items-center gap-2 px-4">
-              {mockMatch.status === "live" && (
+              {mockMatch.status === "upcoming" && (
                 <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider"
                   style={{ background: "#ef4444" }}>
                   <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
-                  AO VIVO · {mockMatch.minute}'
+                  ANTES DO JOGO
                 </div>
               )}
               <div className="flex items-center gap-4">

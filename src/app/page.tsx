@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { groups, getTeamsByGroup, getMatchesByGroup, initialStandings } from "@/data/groups";
+import Bracket from "@/components/bracket/Bracket";
 
 const ResultDot = ({ r }: { r: "W" | "D" | "L" | null }) => {
   const base = "w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black";
@@ -269,14 +270,10 @@ export default function Home() {
           </div>
         )}
         {activeTab === "eliminatorias" && (
-          <div className="flex flex-col items-center justify-center py-32 gap-4">
-            <span className="text-7xl">🏆</span>
-            <p className="text-white/20 text-sm tracking-widest uppercase">
-              Chaveamento disponível após a fase de grupos
-            </p>
-          </div>
-        )}
-      </div>
+  <div>
+    <Bracket />
+  </div>
+)}
 
       <footer className="text-center py-8 text-white/15 text-xs tracking-wider uppercase"
         style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>

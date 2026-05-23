@@ -14,6 +14,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
+      <head>
+        {/* Cole aqui o script do Google AdSense */}
+       <script
+         async
+         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3385119571124977"
+         crossOrigin="anonymous"
+/>
+      </head>
       <body>{children}</body>
     </html>
   );

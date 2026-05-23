@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { groups, getTeamsByGroup, getMatchesByGroup, initialStandings } from "@/data/groups";
 import Bracket from "@/components/bracket/Bracket";
+import Calendar from "@/components/calendar/Calendar";
 
 const ResultDot = ({ r }: { r: "W" | "D" | "L" | null }) => {
   const base = "w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black";
@@ -212,7 +213,7 @@ function GroupModal({ group, onClose }: { group: string; onClose: () => void }) 
 }
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<"grupos" | "eliminatorias">("grupos");
+  const [activeTab, setActiveTab] = useState<"grupos" | "calendario" | "eliminatorias">("grupos");
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
 
   return (
@@ -247,7 +248,11 @@ export default function Home() {
       <div className="sticky top-0 z-20"
         style={{ background: "#161b22", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
         <div className="max-w-screen-xl mx-auto px-4 flex">
-          {[{ id:"grupos", label:"Fase de Grupos" },{ id:"eliminatorias", label:"Eliminatórias" }].map(tab => (
+          {[
+             { id:"grupos", label:"Fase de Grupos" },
+            { id:"calendario", label:"Calendário" },
+            { id:"eliminatorias", label:"Eliminatórias" },
+            ].map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id as any)}
               className={`px-6 py-4 text-sm font-bold tracking-wide transition-all border-b-2 ${
                 activeTab === tab.id
@@ -269,6 +274,11 @@ export default function Home() {
             ))}
           </div>
         )}
+        {activeTab === "calendario" && (
+  <div className="py-2">
+    <Calendar />
+  </div>
+)}
         {activeTab === "eliminatorias" && (
           <div>
             

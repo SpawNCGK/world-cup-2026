@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import OddsDisplay from "@/components/odds/OddsDisplay";
 
 interface MatchStats {
   team: { name: string; logo: string };
@@ -43,7 +44,7 @@ export default function MatchPage() {
     home: { name: "Brasil", flag: "https://flagcdn.com/br.svg", score: 2 },
     away: { name: "Marrocos", flag: "https://flagcdn.com/ma.svg", score: 1 },
     minute: 67,
-    status: "live" as const,
+    status: "upcoming" as const,
     date: "13/06/2026",
     time: "19:00 BRT",
     venue: "MetLife Stadium",
@@ -166,7 +167,17 @@ export default function MatchPage() {
       </div>
 
       <div className="max-w-lg mx-auto px-4 py-6">
-
+        {/* Odds — aparece só antes do jogo */}
+        {mockMatch.status === "upcoming" && (
+          <div className="mb-6">
+            <OddsDisplay
+              homeTeam={mockMatch.home.name}
+              awayTeam={mockMatch.away.name}
+              homeFla={mockMatch.home.flag}
+              awayFla={mockMatch.away.flag}
+            />
+          </div>
+)}
         {/* ESTATÍSTICAS */}
         {activeTab === "stats" && (
           <div className="rounded-2xl p-5" style={{ background: "#161b22", border: "1px solid rgba(255,255,255,0.08)" }}>

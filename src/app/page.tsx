@@ -51,7 +51,11 @@ function GroupCard({ group, onClick }: { group: string; onClick: () => void }) {
                 <td className="px-2 py-3">
                   <div className="flex items-center gap-2">
                     <img src={team.flag} alt={team.team} className="w-8 h-5 object-cover rounded shadow flex-shrink-0" />
-                    <span className="font-semibold text-white truncate max-w-[130px]">{team.team}</span>
+                    <a href={`/team/${team.code}`}
+  onClick={(e) => e.stopPropagation()}
+  className="font-semibold text-white truncate max-w-[130px] hover:text-[#ffdf00] transition">
+  {team.team}
+</a>
                   </div>
                 </td>
                 <td className="text-center px-3 py-3 font-black text-white text-base">{team.points}</td>

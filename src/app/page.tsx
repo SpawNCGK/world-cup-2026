@@ -48,16 +48,12 @@ function GroupCard({ group, onClick }: { group: string; onClick: () => void }) {
               <tr key={team.code} className="transition-colors hover:bg-white/[0.04]"
                 style={{ borderBottom: "1px solid rgba(255,255,255,0.05)", borderLeft: i < 2 ? "3px solid #22c55e" : "3px solid transparent" }}>
                 <td className="pl-5 pr-2 py-3 text-white/25 text-xs">{i + 1}</td>
-                <td className="px-2 py-3">
-                  <div className="flex items-center gap-2">
-                    <img src={team.flag} alt={team.team} className="w-8 h-5 object-cover rounded shadow flex-shrink-0" />
-                    <a href={`/team/${team.code}`}
-  onClick={(e) => e.stopPropagation()}
-  className="font-semibold text-white truncate max-w-[130px] hover:text-[#ffdf00] transition">
-  {team.team}
-</a>
-                  </div>
-                </td>
+               <td className="px-2 py-3">
+  <div className="flex items-center gap-2">
+    <img src={team.flag} alt={team.team} className="w-8 h-5 object-cover rounded shadow flex-shrink-0" />
+    <a href={`/team/${team.code}`} onClick={(e) => e.stopPropagation()} className="font-semibold text-white truncate max-w-[130px] hover:text-[#ffdf00] transition">{team.team}</a>
+  </div>
+</td>
                 <td className="text-center px-3 py-3 font-black text-white text-base">{team.points}</td>
                 {[team.played, team.won, team.drawn, team.lost, team.gf, team.ga, team.gd].map((v, j) => (
                   <td key={j} className="text-center px-2 py-3 text-white/40 text-xs">{v}</td>
@@ -156,7 +152,7 @@ function GroupModal({ group, onClose }: { group: string; onClose: () => void }) 
                 <td className="px-2 py-4">
                   <div className="flex items-center gap-2">
                     <img src={team.flag} alt={team.team} className="w-8 h-5 object-cover rounded shadow flex-shrink-0" />
-                    <span className="font-semibold text-white text-sm">{team.team}</span>
+                    <a href={`/team/${team.code}`} onClick={(e) => e.stopPropagation()} className="font-semibold text-white truncate max-w-[130px] hover:text-[#ffdf00] transition">{team.team}</a>
                   </div>
                 </td>
                 <td className="text-center px-2 py-4 font-black text-white text-lg">{team.points}</td>

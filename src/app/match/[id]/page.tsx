@@ -4,11 +4,14 @@ import { useParams } from "next/navigation";
 import { getGameById, WCGame, translateTeam } from "@/lib/api/worldcup";
 import { teams } from "@/data/groups";
 import OddsDisplay from "@/components/odds/OddsDisplay";
+import { allMatches } from "@/data/groups";
+import { matchIdMap } from "@/data/matchIdMap";
 
 const StatBar = ({ label, home, away }: { label: string; home: number; away: number }) => {
   const total = home + away || 1;
   const homePct = Math.round((home / total) * 100);
   const awayPct = 100 - homePct;
+  const [localMatch, setLocalMatch] = useState<any>(null);
   return (
     <div className="mb-4">
       <div className="flex justify-between text-xs text-white/60 mb-1">
@@ -37,18 +40,23 @@ export default function MatchPage() {
   const [game, setGame] = useState<WCGame | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"stats" | "events" | "players">("stats");
+  const [localMatch, setLocalMatch] = useState<any>(null);
 
-  useEffect(() => {
-    const fetchGame = async () => {
-      const data = await getGameById(id as string);
+useEffect(() => {
+  const fetchGame = async () => {
+    const localMatch = allMatches.find(m => m.id === Number(id));
+    setLocalMatch(localMatch || null);
+    const apiId = matchIdMap[Number(id)];
+    if (apiId) {
+      const data = await getGameById(apiId);
       setGame(data);
-      setLoading(false);
-    };
-    fetchGame();
-    // Atualiza a cada 30s se jogo ao vivo
-    const interval = setInterval(fetchGame, 30000);
-    return () => clearInterval(interval);
-  }, [id]);
+    }
+    setLoading(false);
+  };
+  fetchGame();
+  const interval = setInterval(fetchGame, 30000);
+  return () => clearInterval(interval);
+}, [id]);
 
   if (loading) {
     return (
@@ -121,7 +129,7 @@ const awayName = translateTeam(game.away_team_name_en || game.away_team_label ||
                   style={{ background: "rgba(255,223,0,0.15)", color: "#ffdf00" }}>
                   ANTES DO JOGO
                 </span>
-                <p className="text-white/40 text-xs mt-2">{formatDate(game.local_date)}</p>
+                <p className="text-white/40 text-xs mt-2">{localMatch?.date.split("-").reverse().join("/")} · {localMatch?.time} BRT</p>
               </div>
             )}
           </div>
@@ -183,7 +191,7 @@ const awayName = translateTeam(game.away_team_name_en || game.away_team_label ||
             style={{ background: "#161b22", border: "1px solid rgba(255,255,255,0.08)" }}>
             <p className="text-4xl mb-3">🏟️</p>
             <p className="text-white/40 text-xs uppercase tracking-wider mb-1">Data e Horário</p>
-            <p className="text-white font-bold">{formatDate(game.local_date)}</p>
+            <p className="text-white font-bold">{localMatch?.date.split("-").reverse().join("/")} · {localMatch?.time} BRT</p>
           </div>
         </div>
       )}
